@@ -2,6 +2,8 @@ import random
 import string
 import re
 import time
+import requests # requests module of python (can be installed via pip)
+url = 'https://pastebin.com/raw/UmAFnJtP' # url of paste
 alphabetLower = list(string.ascii_lowercase)
 alphabetUpper = list(string.ascii_uppercase)
 digits = list(string.digits)
@@ -29,10 +31,11 @@ while boolean:
     print(pw)
     print("")
     print("This words will help you to remember your password:")
-    with open('data.txt', 'r') as myfile:
-        data=myfile.read().replace('\n', ' ')
-        data = re.sub(r'[^\w\s]','',data)
-        data = re.sub('\d', '%d', data)
+    r = requests.get(url) # response will be stored from url
+    data = r.text  # raw text from url
+    data= data.replace('\n', ' ')
+    data = re.sub(r'[^\w\s]','',data)
+    data = re.sub('\d', '%d', data)
     for i in pwArray:
         for x in data.split():
             if x.startswith(' '.join(i)):
@@ -49,5 +52,5 @@ while boolean:
           else:
               noAns = False
               boolean = False
-print("")          
+print("")
     
